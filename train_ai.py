@@ -24,7 +24,7 @@ REWARD_MOVE = 0
 
 # Game constants
 CELL_SIZE = 40
-CELL_NUMBER = 30
+CELL_NUMBER = 20
 SCREEN_WIDTH = CELL_NUMBER * CELL_SIZE
 SCREEN_HEIGHT = CELL_NUMBER * CELL_SIZE + 100
 
@@ -37,12 +37,14 @@ class Robot:
         """ Initialise robot object, with reward matrix and empty Q matrix"""
         self.alpha = 0.3
         self.gamma = 0.2
-        self.epochs = 0
         self.epsilon = 0.2
+        
+        self.epochs = 0
         self.best_score = 0
         self.current_path = np.zeros(2)
         self.best_path = np.zeros(0)
         self.scores = np.zeros(0, float)
+
         self.q_matrix = np.zeros((2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 4))
         self.current_state = self.get_state()
     
@@ -208,17 +210,6 @@ class Robot:
         else:
             next_direction = self.get_next_state_greedy()
         return next_direction
-    
-    def store_path(self, next_direction_vector):
-        """ Assigns movements and fruit locations to self.current_path array
-        
-        # Inputs:
-        next_direction_vector:  Vector2 selecting next movement
-        """
-        if not len(self.current_path):
-            self.current_path = np.array([[main_game.snake.direction], [main_game.fruit.pos]])
-        else:
-            self.current_path = np.append(self.current_path, [[next_direction_vector], [main_game.fruit.pos]])
 
     def update_q_matrix(self, next_direction, next_state, current_reward):
         
@@ -230,10 +221,21 @@ class Robot:
         current_reward      Int, reward for next move
         """ 
         self.q_matrix[tuple(self.current_state)][next_direction] =\
-                (1 - self.alpha)\
+            (1 - self.alpha)\
             * self.q_matrix[tuple(self.current_state)][next_direction]\
             + self.alpha * (current_reward + self.gamma\
             * max(self.q_matrix[tuple(next_state)]))
+            
+    def store_path(self, next_direction_vector):
+        """ Assigns movements and fruit locations to self.current_path array
+        
+        # Inputs:
+        next_direction_vector:  Vector2 selecting next movement
+        """
+        if not len(self.current_path):
+            self.current_path = np.array([[main_game.snake.direction], [main_game.fruit.pos]])
+        else:
+            self.current_path = np.append(self.current_path, [[next_direction_vector], [main_game.fruit.pos]])
 
     def store_game_info(self, print_info=False):
         score = len(main_game.snake.body) - 3
@@ -273,9 +275,6 @@ class Robot:
         if self.epsilon > 0.0003:
             self.epsilon -= 0.0002
 
-
-
-
     def q_learning(self, max_epochs=float('inf')):
         """ Run q-learning using epsilon-greedy policy and return the best reward and score with greedy-path()
         # Inputs:
@@ -305,12 +304,9 @@ class Robot:
             self.store_game_info()
             
         if self.epochs == max_epochs - 1:
-            np.save(f"trained_array_{max_epochs}", self.q_matrix)
+            np.save(f"trained_q_matrices/trained_array_{max_epochs}", self.q_matrix)
             quit_game()
             
-
-
-
 ####################
 #   Game functions 
 ####################
@@ -394,7 +390,7 @@ if __name__ == "__main__":
                 quit_game()
 
             if event.type == SCREEN_UPDATE:
-                robot.q_learning(1500)
+                robot.q_learning(2500)
                 main_game.update()
 
             if event.type == pygame.KEYDOWN:

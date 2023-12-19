@@ -37,7 +37,7 @@ class Robot:
         self.current_path = np.zeros(0)
         self.best_path = np.zeros(0)
         self.scores = np.zeros(0, float)
-        self.q_matrix = np.load('trained_array_5000.npy')
+        self.q_matrix = np.load('trained_q_matrices/trained_array_2000.npy')
         self.current_state = self.get_state()
     
     
@@ -65,7 +65,7 @@ class Robot:
         state[10]  = danger down
         state[11]  = danger left
         """
-        state = np.zeros(19, dtype=int)
+        state = np.zeros(12, dtype=int)
         if next_direction == NO_MOVEMENT:
             direction = main_game.snake.direction
         else:
@@ -87,35 +87,20 @@ class Robot:
             state[4] = 1
         elif food.y > snake_head[1]:
             state[6] = 1
-        
         if food.x > snake_head[0]:
             state[5] = 1
         elif food.x < snake_head[0]:
             state[7] = 1
 
         body = main_game.snake.body[:-1]
-        if snake_head + UP + LEFT in body or (snake_head + UP + LEFT).x < 0 or (snake_head + UP + LEFT).y >= CELL_NUMBER:
-            state[8] = 1
-        if snake_head + UP + UP in body or (snake_head + UP + UP).y >= CELL_NUMBER:
-            state[9] = 1
-        if snake_head + UP + RIGHT in body or (snake_head + UP + RIGHT).x >= CELL_NUMBER or (snake_head + UP + RIGHT).y >= CELL_NUMBER:
-            state[10] = 1
-        if snake_head + LEFT + LEFT in body or (snake_head + LEFT + LEFT).x < 0:
-            state[11] = 1
-        if snake_head + LEFT in body or (snake_head + LEFT).x < 0:
-            state[12] = 1
+        if snake_head + UP in body or (snake_head + UP).y >= CELL_NUMBER:
+            state [8] = 1
         if snake_head + RIGHT in body or (snake_head + RIGHT).x >= CELL_NUMBER:
-            state[13] = 1
-        if snake_head + RIGHT + RIGHT in body or (snake_head + RIGHT + RIGHT).x >= CELL_NUMBER:
-            state[14] = 1
-        if snake_head + LEFT + DOWN in body or (snake_head + LEFT + DOWN).x < 0 or (snake_head + LEFT + DOWN).y >= CELL_NUMBER:
-            state[15] = 1
+            state[9] = 1
         if snake_head + DOWN in body or (snake_head + DOWN).y >= CELL_NUMBER:
-            state[16] = 1
-        if snake_head + DOWN + RIGHT in body or (snake_head + RIGHT + DOWN).x >= CELL_NUMBER or (snake_head + RIGHT + DOWN).y >= CELL_NUMBER:
-            state[17] = 1
-        if snake_head + DOWN + DOWN in body or (snake_head + DOWN + DOWN).y >= CELL_NUMBER:
-            state[18] = 1
+            state[10] = 1
+        if snake_head + LEFT in body or (snake_head + LEFT).x < 0:
+            state[11] = 1
 
         return state
     
@@ -229,12 +214,9 @@ class Robot:
         
 
     def greedy_path(self, max_epochs=float('inf')):
-        """ Run q-learning using epsilon-greedy policy and return the best reward and score with greedy-path()
+        """ Run with a greedy policy with a trained Q matrix and return the best reward and score with greedy-path()
         # Inputs:
         max_epochs:   Number of epochs (simulations) to run
-
-        # Notes:
-        When max_epochs is reached the program will save the trained Q-matrix to an external file
         """
 
         self.current_state = self.get_state()
