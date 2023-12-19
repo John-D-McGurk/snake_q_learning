@@ -25,7 +25,7 @@ SCREEN_WIDTH = CELL_NUMBER * CELL_SIZE
 SCREEN_HEIGHT = CELL_NUMBER * CELL_SIZE
 
 
-PATH = np.load("paths/85_points.npy").astype(int)
+PATH = np.load("paths/85_fav_points.npy").astype(int)
 
 
 if __name__ == "__main__":
@@ -44,7 +44,7 @@ if __name__ == "__main__":
     SCREEN_UPDATE = pygame.USEREVENT
     pygame.time.set_timer(SCREEN_UPDATE, 50)
     time = 50
-    pygame.display.set_caption('Snake - Run AI')
+    pygame.display.set_caption('Snake - Run Path Replay')
     pygame.display.set_icon(apple)
 
     main_game = game.Main()
