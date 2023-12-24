@@ -2,7 +2,9 @@ import pygame
 import random
 from pygame.math import Vector2
 import sys
-
+####################
+#   Initialisation 
+####################
 pygame.init()
 CELL_SIZE = 40
 CELL_NUMBER = 20
@@ -185,33 +187,47 @@ class Main:
     
 
 if __name__ == "__main__":
+####################
+#   Initialisation 
+####################
     SCREEN_UPDATE = pygame.USEREVENT
     pygame.time.set_timer(SCREEN_UPDATE, 150)
     pygame.display.set_caption('Snake - Train AI')
     pygame.display.set_icon(apple)
     main_game = Main()
 
+####################
+#   Game loop 
+####################
     while True:
         for event in pygame.event.get():
+
             if event.type == pygame.QUIT:
                 pygame.quit()
                 sys.exit()
+
             if event.type == SCREEN_UPDATE:
                 main_game.update()
+                # Set direction keys to control snake direction
             if event.type == pygame.KEYDOWN:
+
                 if event.key == pygame.K_UP:
                     if main_game.snake.direction.y != 1:
                         main_game.snake.direction = Vector2(0, -1)
+
                 if event.key == pygame.K_RIGHT:
                     if main_game.snake.direction.x != -1:
                         main_game.snake.direction = Vector2(1, 0)
+
                 if event.key == pygame.K_DOWN:
                     if main_game.snake.direction.y != -1:
                         main_game.snake.direction = Vector2(0, 1)
+
                 if event.key == pygame.K_LEFT:
                     if main_game.snake.direction.x != 1:
                         main_game.snake.direction = Vector2(-1, 0)
 
+        # Draw elements and update display
         screen.fill((175,215,70))
         main_game.draw_elements()
         pygame.display.update()

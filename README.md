@@ -1,11 +1,11 @@
 # Snake Q Learning
-#### Video Demo: <URL>
+#### Video Demo: https://youtu.be/ajX2sHjmfGA
 #### Description:
 
 My final project was to make a Q learning algorithm that can play the classic game Snake. Using the base skills learned from CS50, I went on to do a course on machine learning and AI basics, which included creating a Q learning algorithm that was able to find the optimal route through a weighted graph. I enjoyed this project thoroughly, which led me to decide upon creating a similar algorithm that could play Snake, which I could then hand in as my final project for CS50 and look back on what I've learned since starting the course.
 
 ## snake.py
-Creating the game itself was not part of the project, however I knew it would be much easier to have the ai interact with the game if the game was also written in Python. I therefore followed a Youtube tutorial to create the game, and learned a little about using PyGame in the process.
+Creating the game itself was not part of the project, however I knew it would be much easier to have the ai interact with the game if the game was also written in Python. I therefore followed a Youtube tutorial to create the game, and learned a little about using PyGame in the process. Here is a link to the tutorial: https://youtu.be/QFvqStqPCRU?si=wByIkow25EoDyR8H
 
 ## train_ai.py
 

@@ -390,7 +390,7 @@ if __name__ == "__main__":
                 quit_game()
 
             if event.type == SCREEN_UPDATE:
-                robot.q_learning(2500)
+                robot.q_learning(4000)
                 main_game.update()
 
             if event.type == pygame.KEYDOWN:
